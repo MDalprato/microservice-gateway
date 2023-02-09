@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Post, Body } from '@nestjs/common';
+import { Controller, Inject, Post, Body, Get , Req, Query, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import {ClientProxy} from '@nestjs/microservices';
 @Controller()
@@ -14,9 +14,19 @@ export class AppController {
   //   return this.appService.getHello();
   // }
 
-  @Get('/sum')
-  async createUser() {
-    const payload = [0,3,35];
-    return this.client.send('sum', payload).toPromise();
+  @Get('getManipolatedName')
+  async getManipolatedName(
+    @Query('name') name: string,
+    @Query('surname') surname: string,
+  ) {
+   
+
+    const info = {
+      name, surname
+    }
+
+    return this.client.send('getManipolatedName', info).toPromise();
+
   }
+
 }
