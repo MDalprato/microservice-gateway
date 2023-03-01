@@ -1,6 +1,7 @@
 import { Controller, Inject, Post, Body, Get, Req, Query, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
+
 @Controller()
 export class AppController {
   constructor(
@@ -27,11 +28,31 @@ export class AppController {
     return this.client1.send('getManipolatedName', info).toPromise();
   }
 
+  @Post('addRecording')
+  async addRecording(@Body() body: any) {
+    return this.client1.send('addRecording', body).toPromise();
+  }
+
+  @Get('getAllRec')
+  async getAllRec() {
+    return this.client1.send('getAllRec', {}).toPromise();
+  }
+
+  
+
+  @Get('getRecForChannel')
+  async getRecForChannel(
+    @Query('chId') chId: Number,
+  ) {
+    return this.client1.send('getRecForChannel', chId).toPromise();
+  }
+
+  
+
   @Get('getManipulatedAge')
   async getManipulatedAge(
     @Query('age') age: Number,
   ) {
-   
     return this.client2.send('getManipulatedAge', age).toPromise();
   }
 
